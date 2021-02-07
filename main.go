@@ -11,14 +11,22 @@ import (
 var Token string
 
 func main() {
-	cfg := config.NewAppConfig()
-	Token = cfg.AppToken()
+	cfg := config.AppConfig()
+	Token = cfg.Discord().Token()
 
 	s, err := discordgo.New("Bot " + Token)
 	if err != nil {
-		fmt.Println("error creating Discord session: ", err)
+		fmt.Printf("error creating Discord session: %s", err)
 		return
 	}
 
 	defer s.Close()
+
+	err := cfg.SaveConfig()
+	if err != nil {
+		fmt.Printf("error saving configuration: %d", err)
+		return
+	} else {
+		
+	}
 }
