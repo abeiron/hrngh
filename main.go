@@ -17,11 +17,11 @@ func main() {
 		panic(err)
 	}
 
-	defer s.Close()
+	defer client.Close()
 
-	var err = cfg.SaveConfig()
-	if err != nil {
-		fmt.Printf("error saving configuration: %d", err)
-		panic(err)
+	var err0 = cfg.SaveConfig()
+	if err0 != nil {
+		fmt.Printf("error saving configuration: %d", err0)
+		panic(err0)
 	}
 }
