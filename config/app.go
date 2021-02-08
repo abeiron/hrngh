@@ -1,24 +1,21 @@
 package config
 
 import (
+	"errors"
 	"fmt"
 	"os"
 
 	"github.com/pelletier/go-toml"
 )
 
-// App -
-//
-// Represents the customizable end-user configuration for the application.
+// App represents the customizable end-user configuration for the application.
 type App struct {
-	discord Discord
-	tag string
-	ver string
+	discord Discord `toml:"discord"`
+	tag string `toml:"tag"`
+	ver string `toml:"ver"`
 }
 
-// AppConfig -
-//
-// Creates a new instance of the default app configuration.
+// AppConfig creates a new instance of the default app configuration.
 func AppConfig() App {
 	return App{
 		DiscordConfig(),
@@ -27,32 +24,24 @@ func AppConfig() App {
 	}
 }
 
-// AppTag -
-//
-// Returns the application tagline.
-func (app App) AppTag() string {
-	return app.tag
+// AppTag returns the application tagline.
+func (app *App) AppTag() string {
+	return (*app).tag
 }
 
-// AppVer -
-//
-// Returns the application version.
-func (app App) AppVer() string {
-	return app.ver
+// AppVer returns the application version.
+func (app *App) AppVer() string {
+	return (*app).ver
 }
 
-// Discord -
-//
-// Returns the configuration of the Discord bot.
-func (app *App) Discord() *Discord {
-	return &app.discord
+// Discord returns the configuration of the Discord bot.
+func (app *App) Discord() Discord {
+	return (*app).discord
 }
 
-// SaveConfig -
-//
-// Saves the configuration to a file.
-func (app App) SaveConfig() error {
-	str, err := toml.Marshal(app)
+// SaveConfig saves the current instance of App to a file.
+func (app *App) SaveConfig() error {
+	str, err := toml.Marshal(*app)
 
 	if err != nil {
 		fmt.Printf("error marshalling application configuration: %d", err)
@@ -81,4 +70,40 @@ func (app App) SaveConfig() error {
 
 
 	return nil
+}
+
+// LoadConfig loads the configuration from its file.
+func (app *App) LoadConfig() (_ App, e error) {
+	if *app != AppConfig() {
+		return (*app), errors.New("default configuration not present")
+	}
+
+	f, err := os.Open("config.toml")
+	if err != nil {
+		fmt.Printf("error opening file: %d", err)
+		return (*app), err
+	}
+
+	defer f.Close()
+
+	var str = new(string)
+	_, err0 := f.Read([]byte(*str))
+	if err0 != nil {
+		fmt.Printf("error reading from file: %d", err)
+		return (*app), err0
+	}
+
+	config, err1 := toml.Load(string(*str))
+	if err1 != nil {
+		fmt.Printf("error loading config from file: %d", err)
+		return (*app), err1
+	}
+
+	err2 := config.Unmarshal(&app)
+	if err2 != nil {
+		fmt.Printf("error unmarshalling configuration: %d", err)
+		return (*app), err2
+	}
+
+	return (*app), nil
 }

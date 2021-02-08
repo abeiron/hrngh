@@ -8,9 +8,9 @@ import (
 //
 // Represents the Discord configuration.
 type Discord struct {
-	token string
-	secret string
-	status discordgo.Status
+	token 	string 				`toml:"token"`
+	secret 	string 				`toml:"secret"`
+	status 	discordgo.Status 	`toml:"status"`
 }
 
 // DiscordConfig -
