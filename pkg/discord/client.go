@@ -16,7 +16,6 @@ const (
 
 type Client struct {
 	token string
-	secret string
 }
 
 // New creates a new instance of a Discord client.

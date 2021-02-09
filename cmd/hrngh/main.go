@@ -3,7 +3,7 @@ package main
 import (
 	"fmt"
 
-	"github.com/abeiron/hrngh/config"
+	"github.com/abeiron/hrngh/internal/config"
 )
 
 func main() {
