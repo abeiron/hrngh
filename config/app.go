@@ -10,6 +10,7 @@ import (
 
 // App represents the customizable end-user configuration for the application.
 type App struct {
+	db Database		`toml:"database"`
 	discord Discord `toml:"discord"`
 	tag string 		`toml:"tag"`
 	ver string 		`toml:"ver"`
@@ -39,9 +40,14 @@ func (app App) Discord() Discord {
 	return app.discord
 }
 
+// Database returns the configuration of the Database instance.
+func (app App) Database() Database {
+	return app.db
+}
+
 // SaveConfig saves the current instance of App to a file.
 func (app App) SaveConfig() error {
-	str, err := toml.Marshal(app)
+	str, err := toml.Marshal(&app)
 	if err != nil {
 		fmt.Printf("error marshalling application configuration: %d", err)
 		return err
@@ -104,8 +110,6 @@ func (app App) LoadConfig() (_ App, e error) {
 		fmt.Printf("error unmarshalling configuration: %d", err2)
 		return app, err2
 	}
-
-	f.Sync()
 
 
 

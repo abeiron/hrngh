@@ -1,21 +1,13 @@
 package config
 
-import (
-	"github.com/bwmarrin/discordgo"
-)
-
-// Discord -
-//
-// Represents the Discord configuration.
+// Discord represents the Discord configuration.
 type Discord struct {
 	token 	string 				`toml:"token"`
 	secret 	string 				`toml:"secret"`
 	status 	discordgo.Status 	`toml:"status"`
 }
 
-// DiscordConfig -
-//
-// Creates a new instance of the default Discord configuration.
+// DiscordConfig creates a new instance of the default Discord configuration.
 func DiscordConfig() Discord {
 	return Discord{
 		"BOT_TOKEN",
@@ -24,21 +16,18 @@ func DiscordConfig() Discord {
 	}
 }
 
-// Token -
-// 
-// Returns the Discord token.
+// Token returns the Discord token.
 func (d Discord) Token() string {
 	return d.token
 }
 
-// Secret -
-//
-// Returns the Discord secret.
+// Secret returns the Discord secret.
 func (d Discord) Secret() string {
 	return d.secret
 }
 
-// SetToken -
+// SetToken
+//
 // `token`: The token being supplied to the bot.
 //
 // Sets the token for the Discord bot connection.
@@ -48,7 +37,8 @@ func (d Discord) SetToken(token string) (_ Discord, err error) {
 	return d, err
 }
 
-// SetSecret -
+// SetSecret
+//
 // `secret`: The secret key for the Discord bot account.
 //
 // Sets the secret key for the Discord bot connection.
@@ -58,7 +48,8 @@ func (d Discord) SetSecret(secret string) (_ Discord, err error) {
 	return d, err
 }
 
-// SetStatus -
+// SetStatus
+//
 // `status`: The status to be displayed for the bot in the Discord client.
 //
 // Sets the status for the bot account.
