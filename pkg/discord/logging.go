@@ -2,8 +2,10 @@
 // Available at https://github.com/abeiron/hrngh
 
 // Copyright 2020-2021, Undying Memory <abeiron@outlook.com>.  All rights reserved.
-// Use of this source code is governed by a BSD-style
-// license that can be found in the LICENSE file.
+// Use of this source code is governed by the Microsoft Public License
+// that can be found in the LICENSE file.
+
+// This file contains a logging implementation.
 
 package discord
 
@@ -17,7 +19,6 @@ import (
 )
 
 const (
-
 	// LogError level is used for critical errors that could lead to data loss
 	// or panic that would not be returned to a calling function.
 	LogError int = iota
@@ -37,7 +38,7 @@ const (
 // Logger can be used to replace the standard logging for discordgo
 var Logger func(msgL, caller int, format string, a ...interface{})
 
-// msglog provides package wide logging consistency for discordgo
+// msglog provides package wide logging consistency for discord
 // the format, a...  portion this command follows that of fmt.Printf
 //   msgL   : LogLevel of the message
 //   caller : 1 + the number of callers away from the message source

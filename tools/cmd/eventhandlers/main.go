@@ -65,7 +65,7 @@ func main() {
 	dir := filepath.Dir("./api/discord/")
 
 	fs := token.NewFileSet()
-	parsedFile, err := parser.ParseFile(fs, "events.go", nil, 0)
+	parsedFile, err := parser.ParseFile(fs, "./api/discord/events.go", nil, 0)
 	if err != nil {
 		log.Fatalf("warning: internal error: could not parse events.go: %s", err)
 		return
