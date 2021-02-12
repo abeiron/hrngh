@@ -10,80 +10,84 @@
 package discord
 
 import (
-	"errors"
-	"sync"
-	"time"
+  "errors"
+  "net/http"
+  "sync"
+  "time"
 )
 
 // Represents the status of a member.
 type Status string
 
 const (
-	StatusOnline 				Status = "online"
-	StatusIdle					Status = "idle"
-	StatusDoNotDisturb 	Status = "dnd"
-	StatusOffline				Status = "offline"
-	StatusInvisible			Status = "invisible"
+  StatusOnline        Status = "online"
+  StatusIdle          Status = "idle"
+  StatusDoNotDisturb  Status = "dnd"
+  StatusOffline       Status = "offline"
+  StatusInvisible     Status = "invisible"
 )
 
 // Session holds the information pertaining to the current shard's session.
 type Session struct {
-	sync.RWMutex
+  sync.RWMutex
 
-	// Generally configurable settings.
+  // Generally configurable settings.
 
-	// Identify is sent during the initial handshake with the Discord gateway.
-	//
-	// https://discord.com/developers/docs/topics/gateway#identify
-	Identify Identify
+  // Identify is sent during the initial handshake with the Discord gateway.
+  //
+  // https://discord.com/developers/docs/topics/gateway#identify
+  Identify Identify
 
-	MFA bool
+  MFA bool
 
-	LogLevel int
+  LogLevel int
 
-	// Should the client reconnect the websocket on error?
-	ReconnectOnError bool
+  // Should the client reconnect the websocket on error?
+  ReconnectOnError bool
 
-	// Sharding
-	ShardId int
-	ShardCount int
+  // Sharding
+  ShardId int
+  ShardCount int
 
-	// Should state tracking be enabled?
-	// 
-	// State tracking is the best way for getting the users'
-	// active guilds and the members of the guilds.
-	StateEnabled bool
+  // Should state tracking be enabled?
+  // 
+  // State tracking is the best way for getting the users'
+  // active guilds and the members of the guilds.
+  StateEnabled bool
 
-	// Whether WebSocket data is ready.
-	// May be deprecated soon.
-	DataReady bool
+  // Whether WebSocket data is ready.
+  // May be deprecated soon.
+  DataReady bool
 
-	// Stores the correct status of the WebSocket connection.
-	status bool
+  // Stores the correct status of the WebSocket connection.
+  status bool
+
+  // The HTTP client used for REST requests.
+  Client *http.Client
 }
 
 // Identify is sent during initial handshake with the Discord gateway.
 //
 // https://discord.com/developers/docs/topics/gateway#identify
 type Identify struct {
-	Token string `json:"token"`
-	Properties IdentifyProperties `json:"properties"`
-	Compress bool `json:"compress"`
-	LargeThreshold int `json:"large_threshold"`
-	Shard *[2]int `json:"shard,omitempty"`
-	Presence GatewayStatusUpdate `json:"presence,omitempty"`
-	GuildSubscriptions bool `json:"guild_subscriptions"`
-	Intents Intent `json:"intents"`
+  Token string `json:"token"`
+  Properties IdentifyProperties `json:"properties"`
+  Compress bool `json:"compress"`
+  LargeThreshold int `json:"large_threshold"`
+  Shard *[2]int `json:"shard,omitempty"`
+  Presence GatewayStatusUpdate `json:"presence,omitempty"`
+  GuildSubscriptions bool `json:"guild_subscriptions"`
+  Intents Intent `json:"intents"`
 }
 
 // IdentifyProperties contains the "properties" portion of an Identify packet
 //
 // https://discord.com/developers/docs/topics/gateway#identify-identify-connection-properties
 type IdentifyProperties struct {
-	OS              string `json:"$os"`
-	Browser         string `json:"$browser"`
-	Device          string `json:"$device"`
-	Referer         string `json:"$referer"`
-	ReferringDomain string `json:"$referring_domain"`
+  OS              string `json:"$os"`
+  Browser         string `json:"$browser"`
+  Device          string `json:"$device"`
+  Referer         string `json:"$referer"`
+  ReferringDomain string `json:"$referring_domain"`
 }
 

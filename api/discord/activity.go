@@ -11,9 +11,9 @@ package discord
 //
 // https://discord.com/developers/docs/topics/gateway#activity-object
 type Activity struct {
-	Name string 		`json:"name"`
-	Type ActivityType 	`json:"type"`
-	Url string 			`json:"url, omitempty"`
+  Name string     `json:"name"`
+  Type ActivityType   `json:"type"`
+  Url string      `json:"url, omitempty"`
 }
 
 // ActivityType is the type of activity in the Activity struct.
@@ -25,9 +25,9 @@ type ActivityType int
 
 // Valid ActivityType values.
 const (
-	ActivityTypeGame ActivityType = iota
-	ActivityTypeStreaming
-	ActivityTypeListening
-	ActivityTypeWatching
-	ActivityTypeCustom = 4
+  ActivityTypeGame ActivityType = iota
+  ActivityTypeStreaming
+  ActivityTypeListening
+  ActivityTypeWatching
+  ActivityTypeCustom = 4
 )

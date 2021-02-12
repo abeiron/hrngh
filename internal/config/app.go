@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/hashicorp/hcl/v2"
+	hcl "github.com/hashicorp/hcl/v2"
 )
 
 // App represents the customizable end-user configuration for the application.
@@ -18,7 +18,7 @@ type App struct {
 
 // AppConfig creates a new instance of the default app configuration.
 func AppConfig() *App {
-	return App{
+	return &App{
 		DiscordConfig(),
 		"am a bot",
 		"0.1.0",
