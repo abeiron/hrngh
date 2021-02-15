@@ -14,6 +14,8 @@ import (
   "net/http"
   "sync"
   "time"
+
+  "github.com/gorilla/websocket"
 )
 
 // Represents the status of a member.
@@ -64,6 +66,45 @@ type Session struct {
 
   // The HTTP client used for REST requests.
   Client *http.Client
+
+    // Managed state object, updated internally with events when
+  // StateEnabled is true.
+  State *State
+
+  // The user agent used for REST APIs
+  UserAgent string
+
+  // Stores the last HeartbeatAck that was recieved (in UTC)
+  LastHeartbeatAck time.Time
+
+  // Stores the last Heartbeat sent (in UTC)
+  LastHeartbeatSent time.Time
+
+  // used to deal with rate limits
+  Ratelimiter *RateLimiter
+
+  // Event handlers
+  handlersMu   sync.RWMutex
+  handlers     map[string][]*eventHandlerInstance
+  onceHandlers map[string][]*eventHandlerInstance
+
+  // The websocket connection.
+  wsConn *websocket.Conn
+
+  // When nil, the session is not listening.
+  listening chan interface{}
+
+  // sequence tracks the current gateway api websocket sequence number
+  sequence *int64
+
+  // stores sessions current Discord Gateway
+  gateway string
+
+  // stores session ID of current Gateway connection
+  sessionID string
+
+  // used to make sure gateway websocket writes do not happen concurrently
+  wsMutex sync.Mutex
 }
 
 // Identify is sent during initial handshake with the Discord gateway.
