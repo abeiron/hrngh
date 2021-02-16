@@ -11,9 +11,9 @@ package discord
 //
 // https://discord.com/developers/docs/topics/gateway#activity-object
 type Activity struct {
-  Name string     `json:"name"`
-  Type ActivityType   `json:"type"`
-  Url string      `json:"url, omitempty"`
+	Name string       `json:"name"`
+	Type ActivityType `json:"type"`
+	Url  string       `json:"url, omitempty"`
 }
 
 // ActivityType is the type of activity in the Activity struct.
@@ -25,9 +25,17 @@ type ActivityType int
 
 // Valid ActivityType values.
 const (
-  ActivityTypeGame ActivityType = iota
-  ActivityTypeStreaming
-  ActivityTypeListening
-  ActivityTypeWatching
-  ActivityTypeCustom = 4
+	ActivityTypeGame ActivityType = iota
+	ActivityTypeStreaming
+	ActivityTypeListening
+	ActivityTypeWatching
+	ActivityTypeCustom = 4
 )
+
+// An Assets struct contains assets and labels used in the rich presence "playing .." Game
+type Assets struct {
+	LargeImageID string `json:"large_image,omitempty"`
+	SmallImageID string `json:"small_image,omitempty"`
+	LargeText    string `json:"large_text,omitempty"`
+	SmallText    string `json:"small_text,omitempty"`
+}
