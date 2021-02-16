@@ -35,6 +35,9 @@ type Session struct {
 
   // Generally configurable settings.
 
+  // Authentication token for this session.
+  Token string
+
   // Identify is sent during the initial handshake with the Discord gateway.
   //
   // https://discord.com/developers/docs/topics/gateway#identify
@@ -45,7 +48,7 @@ type Session struct {
   LogLevel int
 
   // Should the client reconnect the websocket on error?
-  ReconnectOnError bool
+  ShouldReconnectOnError bool
 
   // Sharding
   ShardId    int
@@ -57,10 +60,17 @@ type Session struct {
   // active guilds and the members of the guilds.
   StateEnabled bool
 
+  // Whether or not to call event handlers synchronously.
+  // e.g false = launch handlers in their own coroutines.
+  SyncEnabled bool
+
+  // Exposed but should not be modified by the User:
+
   // Whether WebSocket data is ready.
   // May be deprecated soon.
   DataReady bool
 
+  // Max number of REST API retries.
   MaxRestRetries int
 
   // Stores the correct status of the WebSocket connection.
