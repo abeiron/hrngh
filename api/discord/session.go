@@ -15,7 +15,7 @@ import (
   "sync"
   "time"
 
-  "github.com/gorilla/websocket"
+  "github.com/abeiron/hrngh/api/ws"
 )
 
 // Represents the status of a member.
@@ -104,7 +104,7 @@ type Session struct {
   onceHandlers map[string][]*eventHandlerInstance
 
   // The websocket connection.
-  wsConn *websocket.Conn
+  wsConn *ws.Conn
 
   // When nil, the session is not listening.
   listening chan interface{}
